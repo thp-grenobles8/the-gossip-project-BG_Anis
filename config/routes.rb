@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   
   end
   
-  resources :users, only: [:show]
+  resources :users, only: [:new, :create, :show]
 
   resources :cities, only: [:show]
 
