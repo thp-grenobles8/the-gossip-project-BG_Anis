@@ -1,0 +1,43 @@
+<html>
+  <body>
+    <!-- ... -->
+    <h2>Création de potin :</h2>
+    <br>
+    <br>
+    <br>
+    <%= form_tag url_for(action: 'create'), method: "gossip" do %>
+      <%= label_tag 'Title' %> <br>
+      <%= text_field_tag '[title]', @gossip.title %>
+
+      <br /> <br />
+
+      <%= label_tag 'Content' %> <br>
+      <%= text_area_tag '[content]', @gossip.content %>
+
+      <br /> <br />
+
+      <%= label_tag 'User' %> <br>
+
+      <%= text_field_tag '[user]', @gossip.user %>
+
+      <br /> <br />
+
+     <%= submit_tag "Create Gossip" %>
+    
+    <% end %>
+  
+    <% if @gossip.errors.any? %>
+  		<div class="alert alert-warning" role="alert">
+  			Une erreur est survenue votre potin n'a pas pu etre publié !
+  		</div>	
+  		<p>Nous n'avons pas réussi à créer le potin pour la (ou les) raison(s) suivante(s) :</p>
+		<ul>
+    		<% @gossip.errors.full_messages.each do |message| %>
+      			<li><%= message %></li>
+    		<% end %>
+  		</ul>
+
+	<% end %>
+    <!-- ... -->
+  </body>
+</html>

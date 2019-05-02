@@ -1,0 +1,25 @@
+<h2>Bienvenue sur Po-Potins</h2>
+
+<h3> <%= link_to "Clique ici pour ajouter un nouveau potin", new_gossip_path %> </h3> 
+
+<br>
+
+<h3>Si t'es pas inspiré c'est pas grave, voici la liste des potins déjà publiés :</h3>
+
+<div class="card-columns">
+<% @gossips.each { |g| %>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        <%= link_to g.title,gossip_path(g.id) %>
+      </h5>
+      <p class="card-subtitle">
+        publié par
+        <%= link_to g.user.first_name, user_path(g.user.id) %>
+      </p>
+    </div>
+  </div>
+
+<% } %>
+</div>

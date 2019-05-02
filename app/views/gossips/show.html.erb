@@ -1,0 +1,54 @@
+<h2>"<%= @gossip.title %>"</h2>
+<q>
+  <%= @gossip.content %>
+</q>
+<p>
+  publié par
+  <%= link_to @gossip.user.first_name+" "+
+  @gossip.user.last_name,
+  user_path(@gossip.user.id) %>
+  
+  de 
+  <%= link_to @gossip.user.city.name,
+   city_path(@gossip.user.city.id) %>
+</p>	
+	<br>
+	<br>
+
+<div class="container">
+  <div class="btn-group">
+
+	<%= form_tag url_for(action: 'destroy'), method: "delete" do %>
+
+		<button type="submit" class="btn btn-danger">Supprimer</button>
+    
+    <% end %>
+
+    <%= link_to 'Modifier', edit_gossip_path(@gossip.id), :class => "btn btn-info" %>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <input type="hidden" name="user_id" >
+  <input type="hidden" name="gossip" value = "<%= @gossip.id %>" >
+  
+  <%= submit_tag "Ajouter un com" %>
+
+    <%= form_tag url_for(action: 'create'), method: "comment" do %>
+
+      <%= label_tag 'Content' %> <br>
+      <%= text_area_tag '[content]', @comment.content %>
+
+      <br /> <br />
+
+      <%= label_tag 'User' %> <br>
+
+      <%= text_field_tag '[user]', @comment.user %>
+
+      <br /> <br />
+
+     <%= submit_tag "Create Comment" %>
+    <% end %>
+</div>
