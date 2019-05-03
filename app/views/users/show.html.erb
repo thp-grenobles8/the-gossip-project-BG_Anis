@@ -6,17 +6,16 @@
       <dd><%= @user.age %> ans</dd>
     <dt>Adresse mail :</dt>
       <dd><%= @user.email %></dd>
-    <dt>Ville :</dt>
-      <dd>  <%= link_to @user.city.name,
-   city_path(@user.city.id) %></dd>
+    <dt>Nous vient de :</dt>
+      <dd><%= link_to @user.city.name, city_path(@user.city.id) %></dd>
   </dl>
 </section>
 
 <section>
   <h3>Description :</h3>
-  <q>
+  <blockquote>
     <%= @user.description %>
-  </q>
+  </blockquote>
 </section>
 
 <section>
@@ -29,6 +28,7 @@
       <h5 class="card-body">
         <%= link_to g.title, gossip_path(g.id), class:'stretched-link' %>
       </h5>
+      
     </div>
 
   <% } %>

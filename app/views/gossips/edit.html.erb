@@ -1,43 +1,36 @@
-<html>
-  <body>
-    <!-- ... -->
-    <h2>Modification de potin :</h2>
-    <br>
-    <br>
-    <br>
-    <%= form_tag url_for(action: 'update'), method: "patch" do %>
-      <%= label_tag 'Title' %> <br>
-      <%= text_field_tag '[title]', @gossip.title %>
+<h2>Editer un potin :</h2>
 
-      <br /> <br />
+<%= form_tag url_for(action: 'update'), method: "put" do %>
 
-      <%= label_tag 'Content' %> <br>
-      <%= text_area_tag '[content]', @gossip.content %>
+  <%= label_tag 'Titre :' %> <br/>
+  <%= text_field_tag 'gossip_title', @gossip.title %>
+  <br /> <br />
 
-      <br /> <br />
+  <%= label_tag 'Contenu :' %> <br/>
+  <%= text_area_tag 'gossip_content', @gossip.content %>
+  <br /> <br />
 
-      <%= label_tag 'User' %> <br>
 
-      <%= text_field_tag '[user]', @gossip.user %>
+  <%= submit_tag "Re-balance ton Potin" %>
 
-      <br /> <br />
+<% end %>
 
-     <%= submit_tag "Modifier Gossip" %>
-    
-    <% end %>
-  
-    <% if @gossip.errors.any? %>
-  		<div class="alert alert-warning" role="alert">
-  			Une erreur est survenue votre potin n'a pas pu etre modifié !
-  		</div>	
-  		<p>Nous n'avons pas réussi à créer le potin pour la (ou les) raison(s) suivante(s) :</p>
-		<ul>
-    		<% @gossip.errors.full_messages.each do |message| %>
-      			<li><%= message %></li>
-    		<% end %>
-  		</ul>
 
-	<% end %>
-    <!-- ... -->
-  </body>
-</html>
+
+
+
+<!--
+<form action= <%= gossips_path(@gossip.id) %> method="PUT">
+  <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %> >
+
+  <label for="gossip_title">Titre</label><br/>
+  <input type="text" name="gossip_title"
+  value="<%= @gossip.title %>"><br/><br/>
+
+  <label for="gossip_content">Contenu</label><br/>
+  <textarea name="gossip_content">
+<%= @gossip.content %>
+  </textarea><br/><br/>
+
+  <input type="submit" value="Re-balance ton po-tin">
+</form> -->

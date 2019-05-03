@@ -14,36 +14,69 @@
  *= require_self
  */
 
-html {
-  font-family: Ubuntu, Calibri, sans-serif !important;
-  color: #333 !important;
-  background: #F5F5F5;
-  background: linear-gradient(175deg, #FFF 2%, #CC9);
-  /* min-height: 100%;
-  position: relative; */
-}
-body {
-  background: transparent !important;
-  /* min-height: 100%;
-  position: relative; */
-}
-
-h2 {
-  font-weight: bolder !important;
-  margin:1em 0 !important;
-}
-h3 {
-  border-bottom: 2px solid #FFFAE2;
+header {
+  background: #CA0;
+  background: linear-gradient(#FFEDDF, #F1DEDE, #FE938C);
 }
 
 a {
-  font-weight: bold;
-  color: #C55 !important;
+  margin: 0 0.4em;
+}
+a:hover {
+  color: #B05 !important;
+  text-shadow: 2px 2px 3px #777;
+  text-decoration: none !important;
 }
 
-section {
-  margin: 2em 0;
+nav {
+  display: flex !important ;
+  align-items: center !important;
 }
+
+h2 {
+  margin: 2em 0 !important;
+}
+
+input[type=submit] {
+  background: none;
+  border: 1px solid #333;
+}
+input[type=submit]:hover {
+  border: 1px solid #B05;
+  color: #B05;
+  text-shadow: 2px 2px 3px #777;
+  box-shadow: 2px 2px 3px #777;
+}
+.icon {
+  background: none;
+  border: none;
+  margin: 0 0.4em;
+}
+.icon:hover {
+  color: #B05 !important;
+  text-shadow: 2px 2px 3px #777;
+  text-decoration: none !important;
+}
+
+.tag {
+  display: inline-block;
+  background: #C35;
+  color: #FFF;
+  font-weight: bold;
+  border-radius: 0.8em;
+  height: 2em;
+  margin: 0.4em;
+  padding: 0.4em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.compulsory {
+  color: #F35 !important;
+  font-weight: bold !important;
+}
+
+/* FOOTER ------------- */
 
 .viewport {
   min-height: 100vh;
@@ -51,12 +84,17 @@ section {
   padding-bottom: 100px;
 }
 
+body {
+  background-color: #FE938C !important;
+  color: #34373A !important;
+}
+
 footer {
   width: 100%;
   position: absolute;
   bottom: 0;
   background: #CBA;
-  background: linear-gradient(175deg, #FED 12%, #CBA);
+  background: linear-gradient(#FE938C, #F1DEDE, #FFEDDF);
   color: #555;
   text-align: center;
   min-height: 100px;
@@ -70,38 +108,6 @@ footer a {
 }
 footer a:hover {
   text-shadow: 2px 2px 2px #888;
-}
-
-.header {
-  background: #CA0;
-  background: linear-gradient(#FFEDDF, #F1DEDE, #FE938C);
-  color: #EEE;
-  padding: 0;
-}
-.header a {
-  color: #443 !important;
-  font-weight: bold;
-  /* text-shadow: 1px 1px 1px #980; */
-}
-.header a:hover {
-  color: #554 !important;
-  font-weight: bolder;
-  text-decoration: none;
-  text-shadow: 1px 1px 2px #980;
-}
-.header h1 {
-  font-size: 2em;
-  color: #DDD;
-  margin: 0;
-}
-.header nav a {
-  font-style: italic;
-  margin: 0.2em;
-}
-
-.card {
-  box-shadow: 1px 1px 2px #872;
-  /* padding: 1em; */
 }
 
 .teamMember {

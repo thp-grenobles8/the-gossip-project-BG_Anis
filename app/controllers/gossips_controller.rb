@@ -1,47 +1,68 @@
 class GossipsController < ApplicationController
-def new
-  @gossip = Gossip.new
-end
+  before_action :authenticate_user, except: [:index] #:show
+  before_action :verify_author, only: [:edit, :destroy]
 
-def create
-  @gossip = Gossip.new(
-    title: params[:title], 
-    content: params[:content], 
-    user: User.all.sample)
-
-  if @gossip.save
-    redirect_to '/'
-  else
-    render 'new'
+  def authenticate_user
+    unless logged_in?
+      flash[:danger] = "Please log in."
+      redirect_to new_session_path
+    end
   end
-end 
 
-def show
-  @gossip = Gossip.find(params['id'])
-  @id = params['id']
-end
-
-def edit
-  @gossip = Gossip.find(params[:id])
-  @id = params['id']
-end
-
-def update
-  @gossip = Gossip.find(params[:id])
-  if @gossip.update(
-    title: params[:title], 
-    content: params[:content], 
-    user: User.all.sample)
-    redirect_to '/'
-  else
-    render :edit
+  def verify_author
+    unless current_user == Gossip.find(params[:id])
+      flash[:danger] = "BIEN ESSAYÉ"
+      redirect_back(fallback_location: root_path)
+    end
   end
-end
 
-def destroy
-  @gossip = Gossip.find(params['id'])
-  @gossip.destroy
-  redirect_to '/'
-end
+  def new
+  end
 
+  def create
+    @gossip = Gossip.new(
+      title: params[:gossip_title],
+      content: params[:gossip_content],
+      author: current_user
+    )
+    if @gossip.save
+      flash[:success] = "Ton potin a été ajouté !"
+      redirect_to :root
+    else
+      flash[:danger] = "Ton potin n'est pas valide !"
+      render :new
+    end
+  end
+
+  def update
+    @gossip = Gossip.find(params[:id])
+    if @gossip.update(
+      title: params[:gossip_title],
+      content: params[:gossip_content]
+    )
+      flash[:success] = "Potin modifié !"
+      redirect_to :root
+    else
+      flash[:danger] = "Potin non valide !"
+      render :edit
+    end
+  end
+
+  def edit
+    @gossip = Gossip.find(params[:id])
+  end
+
+  def destroy
+    Gossip.find(params[:id]).destroy
+    flash[:success] = "Potin supprimé !"
+    redirect_to :root
+  end
+
+  def index
+    @gossips = Gossip.all
+  end
+
+  def show
+    @gossip = Gossip.find(params[:id].to_i)
+  end
 end

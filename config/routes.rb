@@ -1,22 +1,26 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'static#home'
+  resources :gossips, only: [
+    :index, :show, :new, :create, :edit, :update, :destroy
+  ] do
+    resources :likes, only: [:create, :destroy]
+  end
 
+  resources :users, only: [:show, :new, :create]
+  resources :cities, only: [:show]
+  resources :comments, only: [:create, :edit, :update, :destroy]
+  resources :tags, only: [:create]
+
+  resources :sessions, only: [:new, :create, :destroy]
+
+  # ----------------------
+  root 'gossips#index'
+
+
+  # static ---------------
   get '/team', to: 'static#team'
-
   get '/contact', to: 'static#contact'
 
-  resources :gossips do
- 
-  resources :comments, except: [:show]  
-  
-  end
-  
-  resources :users, only: [:new, :create, :show]
 
-  resources :cities, only: [:show]
-
-  get '/welcome', to: 'dynamic#welcome'
-
-  get '/welcome/:name', to: 'dynamic#welcome'
+  # get '/welcome', to: 'dynamic#welcome'
+  # get '/welcome/:name', to: 'dynamic#welcome'
 end

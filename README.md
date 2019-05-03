@@ -1,22 +1,22 @@
-# the Gossip Project - version FULLSTACK
+the Gossip Project - version FULLSTACK
 
-On passe aux choses serieuses
+Je n'ai pas fait les likes
 
-## use
+How to use :
 
-un `git clone`
+un git clone/download
 
-un `bundle install`
+un bundle install
 
-un `rails db:create`
+pour etre sur de créer une nouvelle database faites :
+$ rake db:drop db:create db:migrate
 
-si tu veux de la data (ce qui est plutôt utile) tu peux lancer les seeds avec `rails db:seed`
+lancez les seeds avec rails db:seed
 
-lance le serveur avec `rails server`
+lance le serveur avec rails server
 
-tu peux maintenant te connecter au [SITE](http://localhost:3000/)
+conectez-vous au site http://localhost:3000/ 
 
-## By
-
-- Guillaume Silvent @gui3
-- Anis Bouhouche @Anis
+By
+Guillaume Silvent @gui3
+Anis Bouhouche @Anis

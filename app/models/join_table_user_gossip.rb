@@ -1,2 +1,0 @@
-class JoinTableUserGossip < ApplicationRecord
-end

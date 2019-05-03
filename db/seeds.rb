@@ -6,134 +6,93 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# remise à zéro des tables
-print "clear User:"
-User.destroy_all
-puts " ✔"
-print "clear City:"
-City.destroy_all
-puts " ✔"
-print "clear Tag:"
-Tag.destroy_all
-puts " ✔"
-print "clear JoinTableGossipTagable:"
-JoinTableGossipTag.destroy_all
-puts " ✔"
-print "clear Gossip:"
-Gossip.destroy_all
-puts " ✔"
-print "clear PrivateMessage:"
+require 'faker'
+
+puts 'deleting database...'
 PrivateMessage.destroy_all
-puts " ✔"
-print "clear JoinTablePrivateMessageUser:"
-JoinTablePrivateMessageUser.destroy_all
-puts " ✔"
-print "clear Comment:"
+JoinTagGossip.destroy_all
+Tag.destroy_all
 Comment.destroy_all
-puts " ✔"
-print "clear Like:"
-Like.destroy_all
-puts " ✔ \n\n"
+Gossip.destroy_all
+User.destroy_all
+City.destroy_all
+puts '...database DELETED'
 
-
-# création des tables
-print 'create City'
-10.times do |index|
-  City.create(
+puts 'CITIES ------------'
+10.times {
+  c = City.create!(
     name: Faker::Address.city,
-    zip_code: Faker::Address.zip_code
+    zip_code: Faker::Address.zip
   )
-end
-puts " ✔"
+  puts "-city of #{c.name} created"
+}
 
-print 'create User'
-10.times do |index|
-  User.create(
+puts 'USERS -------------'
+10.times {
+  u = User.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    description: Faker::Lorem.words(30).join(" ").capitalize,
+    description: Faker::Quote.famous_last_words,
     email: Faker::Internet.email,
-    age: rand(20..40),
-    city: City.all.sample
+    age: rand(1..90),
+    city: City.all.sample,
+    password: "password"
   )
-end
-puts " ✔"
+  puts "-user #{u.first_name} created"
+}
 
-print 'create Gossip'
-20.times do |index|
-  Gossip.create(
-    title: Faker::Creature::Animal.name.capitalize,
-    content: Faker::Lorem.words(25).join(' ').capitalize,
-    user: User.all.sample
+puts 'GOSSIPS --------------'
+20.times {
+  g = Gossip.create!(
+    title: Faker::Cannabis.buzzword,
+    content: Faker::Quote.famous_last_words,
+    author: User.all.sample
   )
-end
-puts " ✔"
+  puts "#{g.author.first_name} posted #{g.title}"
+}
 
-print 'create Tag'
-10.times do |index|
-  Tag.create(
-    title: Faker::Book.genre
+puts 'TAGS & join tags gossips --------'
+10.times {
+  t = Tag.create!(
+    title: '#' + Faker::Cannabis.buzzword
   )
-end
-puts " ✔"
-
-print 'create JoinTableGossipTag'
-Gossip.all.each do |g|
-  t = rand(1..5)
-  t.times do |index|
-    JoinTableGossipTag.create(
+}
+Gossip.all.each {
+  |g| # pour chaque potin
+  rand(1..5).times { # jusqu'a 5 tags
+    t = Tag.all.sample # un tag au hasard
+    if !g.tags.include?(t) # si le tag n'est pas déjà associé au gossip
+      j = JoinTagGossip.create!(
         gossip: g,
-        tag: Tag.all.sample
-    )
-  end
-end
-puts " ✔"
+        tag: t
+      )
+      puts "tag #{t.title} added to gossip #{g.title}"
+    end
+  }
+}
 
-print 'create PrivateMessage'
-10.times do |index|
-  PrivateMessage.create(
-    content: Faker::Lorem.words(30).join(' ').capitalize,
-    sender: User.all.sample
+puts 'PRIVATE MESSAGES ------------'
+20.times {
+  sender = User.all.sample
+  recipient = User.all.select{|u| u != sender}.sample
+  # le message ne peut pas être envoyé et recu par la même personne
+  # en vérité si, mais bon on c'est plus marrant comme ça
+  pm = PrivateMessage.create!(
+    content: Faker::Lorem.sentence(20),
+    sender: sender,
+    recipient: recipient
   )
-end
-puts " ✔"
+  puts "#{pm.sender.first_name} a envoyé un message à #{pm.recipient.first_name}"
+}
 
-print 'create JoinTablePrivateMessageUser'
-PrivateMessage.all.each do |pm|
-  r = rand(1..5)
-  r.times do |index|
-    JoinTablePrivateMessageUser.create(
-      private_message: pm,
-      recipient: User.all.sample
-    )
-  end
-end
-puts " ✔"
-
-print 'create Comment'
-20.times do |index|
-  Comment.create(
+puts 'COMMENTS --------------------'
+40.times {
+  coms_text = ['LOL', 'XPTdR', 'génial', 'je plussoie',
+  'XD jador t ki ?', "c'est pas ouf quoi", '+1', 'first']
+  com = Comment.create!(
+    content: coms_text.sample,
     author: User.all.sample,
-    gossip: Gossip.all.sample,
-    content: Faker::Lorem.words(15).join(' ').capitalize
+    gossip: Gossip.all.sample
   )
-end
-puts " ✔"
-
-print 'create Like'
-20.times do |index|
-  is_gossip = [true, false].sample
-
-  if is_gossip
-    Like.create(
-      gossip: Gossip.all.sample,
-      user: User.all.sample
-    )
-  else
-    Like.create(
-      comment: Comment.all.sample,
-      user: User.all.sample
-    )
-  end
-end
-puts " ✔"
+  puts "#{com.author.first_name} a commenté un gossip avec #{com.content}"
+}
