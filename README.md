@@ -1,4 +1,4 @@
-the Gossip Project - version FULLSTACK
+Fullstack Gossip Project
 
 Je n'ai pas fait les likes
 
